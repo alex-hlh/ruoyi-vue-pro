@@ -1,6 +1,7 @@
-import { App, unref } from 'vue'
+import { App } from 'vue'
 import XEUtils from 'xe-utils'
 import './renderer'
+import 'vxe-table/lib/style.css'
 import { i18n } from '@/plugins/vueI18n'
 import zhCN from 'vxe-table/lib/locale/lang/zh-CN'
 import enUS from 'vxe-table/lib/locale/lang/en-US'
@@ -76,26 +77,26 @@ VXETable.setup({
     },
     pagerConfig: {
       border: false,
-      background: true,
+      background: false,
       autoHidden: true,
       perfect: true,
       pageSize: 10,
       pagerCount: 7,
       pageSizes: [5, 10, 15, 20, 50, 100, 200, 500],
       layouts: [
+        'Sizes',
         'PrevJump',
         'PrevPage',
-        'Jump',
-        'PageCount',
+        'Number',
         'NextPage',
         'NextJump',
-        'Sizes',
+        'FullJump',
         'Total'
       ]
     }
   },
   pager: {
-    background: true,
+    background: false,
     autoHidden: false,
     perfect: true,
     pageSize: 10,
@@ -134,7 +135,15 @@ VXETable.setup({
 })
 // 自定义全局的格式化处理函数
 VXETable.formats.mixin({
-  // 格式日期，默认 yyyy-MM-dd HH:mm:ss
+  // 格式精简日期，默认 yyyy-MM-dd HH:mm:ss
+  formatDay({ cellValue }, format) {
+    if (cellValue != null) {
+      return XEUtils.toDateString(cellValue, format || 'yyyy-MM-dd')
+    } else {
+      return ''
+    }
+  },
+  // 格式完整日期，默认 yyyy-MM-dd HH:mm:ss
   formatDate({ cellValue }, format) {
     if (cellValue != null) {
       return XEUtils.toDateString(cellValue, format || 'yyyy-MM-dd HH:mm:ss')

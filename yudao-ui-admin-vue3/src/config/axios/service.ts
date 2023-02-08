@@ -1,16 +1,10 @@
-import axios, {
-  AxiosInstance,
-  AxiosRequestConfig,
-  AxiosRequestHeaders,
-  AxiosResponse,
-  AxiosError
-} from 'axios'
+import axios, { AxiosInstance, AxiosRequestHeaders, AxiosResponse, AxiosError } from 'axios'
 import { ElMessage, ElMessageBox, ElNotification } from 'element-plus'
 import qs from 'qs'
 import { config } from '@/config/axios/config'
 import { getAccessToken, getRefreshToken, getTenantId, removeToken, setToken } from '@/utils/auth'
 import errorCode from './errorCode'
-import { useI18n } from '@/hooks/web/useI18n'
+
 import { resetRouter } from '@/router'
 import { useCache } from '@/hooks/web/useCache'
 
@@ -41,7 +35,7 @@ const service: AxiosInstance = axios.create({
 
 // request拦截器
 service.interceptors.request.use(
-  (config: AxiosRequestConfig) => {
+  (config) => {
     // 是否需要设置 token
     let isToken = (config!.headers || {}).isToken === false
     whiteList.some((v) => {
